@@ -2,28 +2,229 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Chatroom</title>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
-   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/index.css">
-   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/themes/theme2.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATMOX Chatbot</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #050505;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.9)),
+        repeating-linear-gradient(45deg, #2b2b2b, #2b2b2b 10px, #1f1f1f 10px, #1f1f1f 20px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: opacity 1.2s ease;
+    }
+
+    .intro-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 420px;
+      height: 160px;
+      background: rgba(170, 170, 170, 0.35);
+      border-radius: 100px;
+      filter: blur(18px);
+      opacity: 0.8;
+      transition: transform 2.2s ease, opacity 1.8s ease;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: rgba(190, 190, 190, 0.45);
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 190px;
+      height: 190px;
+      top: -80px;
+      left: 50px;
+    }
+
+    .cloud::after {
+      width: 240px;
+      height: 240px;
+      top: -110px;
+      right: 40px;
+    }
+
+    .cloud-left {
+      left: -80px;
+      top: 25%;
+    }
+
+    .cloud-right {
+      right: -80px;
+      bottom: 25%;
+    }
+
+    .intro-screen.open .cloud-left {
+      transform: translateX(-120vw);
+      opacity: 0;
+    }
+
+    .intro-screen.open .cloud-right {
+      transform: translateX(120vw);
+      opacity: 0;
+    }
+
+    .intro-content {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      cursor: pointer;
+      padding: 40px 70px;
+      border-radius: 24px;
+      background: rgba(80, 80, 80, 0.25);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+    }
+
+    .intro-content h1 {
+      margin: 0;
+      font-size: 44px;
+      letter-spacing: 5px;
+    }
+
+    #welcome-word {
+      display: block;
+      font-size: 24px;
+      color: #d8d8d8;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .click-hint {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #bdbdbd;
+    }
+
+    .chat-page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:
+        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)),
+        repeating-linear-gradient(45deg, #2a2a2a, #2a2a2a 10px, #1d1d1d 10px, #1d1d1d 20px);
+    }
+
+    .chat-wrapper {
+      width: 420px;
+      min-height: 620px;
+      background: rgba(100, 100, 100, 0.18);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 0 45px rgba(0,0,0,0.9);
+      backdrop-filter: blur(8px);
+    }
+
+    .chat-title {
+      text-align: center;
+      margin-bottom: 18px;
+      font-size: 26px;
+      letter-spacing: 4px;
+      color: #f1f1f1;
+    }
+
+    .chat-container {
+      height: 500px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #1c1c1c;
+    }
+  </style>
 </head>
 
 <body>
-   <div class="chat-container"></div>
-   <script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
-   <script type="text/javascript">
-      var chatroom = new window.Chatroom({
-          host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
-          title: "Chat with a bot",
-          container: document.querySelector(".chat-container"),
-          welcomeMessage: "Nice to meet you.",
-          speechRecognition: "en-US",
-          voiceLang: "en-US"
-      });
-      chatroom.openChat();
-   </script>
+  <div class="intro-screen" id="introScreen">
+    <div class="cloud cloud-left"></div>
+    <div class="cloud cloud-right"></div>
+
+    <div class="intro-content" id="enterAtmox">
+      <span id="welcome-word">Welcome</span>
+      <h1>ATMOX</h1>
+      <div class="click-hint">Click to enter</div>
+    </div>
+  </div>
+
+  <div class="chat-page">
+    <div class="chat-wrapper">
+      <div class="chat-title">ATMOX</div>
+      <div class="chat-container"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
+
+  <script>
+    const words = [
+      "Welcome",
+      "Willkommen",
+      "Bienvenue",
+      "Bienvenido",
+      "Benvenuto",
+      "Welkom",
+      "Witamy",
+      "Karibu",
+      "ようこそ",
+      "환영합니다"
+    ];
+
+    let index = 0;
+    const welcomeWord = document.getElementById("welcome-word");
+
+    setInterval(() => {
+      index = (index + 1) % words.length;
+      welcomeWord.textContent = words[index];
+    }, 3000);
+
+    const introScreen = document.getElementById("introScreen");
+    const enterAtmox = document.getElementById("enterAtmox");
+
+    enterAtmox.addEventListener("click", () => {
+      introScreen.classList.add("open");
+
+      setTimeout(() => {
+        introScreen.classList.add("hidden");
+      }, 1800);
+    });
+
+    var chatroom = new window.Chatroom({
+      host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
+      title: "ATMOX",
+      container: document.querySelector(".chat-container"),
+      welcomeMessage: "Welcome to ATMOX.",
+      speechRecognition: "en-US",
+      voiceLang: "en-US"
+    });
+
+    chatroom.openChat();
+  </script>
 </body>
 
 </html>
