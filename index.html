@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ATMOX Chatbot</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       background: #050505;
-      font-family: Arial, sans-serif;
+      font-family: "Inter", Arial, sans-serif;
       overflow: hidden;
       color: white;
     }
@@ -22,13 +26,20 @@
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.9)),
-        repeating-linear-gradient(45deg, #2b2b2b, #2b2b2b 10px, #1f1f1f 10px, #1f1f1f 20px);
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.92)),
+        repeating-linear-gradient(
+          45deg,
+          #2b2b2b,
+          #2b2b2b 10px,
+          #151515 10px,
+          #151515 22px
+        );
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10;
       transition: opacity 1.2s ease;
+      overflow: hidden;
     }
 
     .intro-screen.hidden {
@@ -38,54 +49,83 @@
 
     .cloud {
       position: absolute;
-      width: 420px;
-      height: 160px;
-      background: rgba(170, 170, 170, 0.35);
-      border-radius: 100px;
-      filter: blur(18px);
-      opacity: 0.8;
-      transition: transform 2.2s ease, opacity 1.8s ease;
+      background: rgba(190, 190, 190, 0.34);
+      border-radius: 999px;
+      filter: blur(32px);
+      opacity: 0.85;
+      transition: transform 2.5s ease, opacity 2s ease;
     }
 
     .cloud::before,
     .cloud::after {
       content: "";
       position: absolute;
-      background: rgba(190, 190, 190, 0.45);
+      background: rgba(210, 210, 210, 0.32);
       border-radius: 50%;
     }
 
     .cloud::before {
-      width: 190px;
-      height: 190px;
-      top: -80px;
-      left: 50px;
+      width: 55%;
+      height: 120%;
+      top: -55%;
+      left: 12%;
     }
 
     .cloud::after {
-      width: 240px;
-      height: 240px;
-      top: -110px;
-      right: 40px;
+      width: 65%;
+      height: 145%;
+      top: -72%;
+      right: 8%;
     }
 
-    .cloud-left {
-      left: -80px;
-      top: 25%;
+    .cloud-1 {
+      width: 620px;
+      height: 230px;
+      left: -160px;
+      top: 18%;
     }
 
-    .cloud-right {
-      right: -80px;
-      bottom: 25%;
+    .cloud-2 {
+      width: 680px;
+      height: 250px;
+      right: -190px;
+      bottom: 18%;
     }
 
-    .intro-screen.open .cloud-left {
-      transform: translateX(-120vw);
+    .cloud-3 {
+      width: 520px;
+      height: 190px;
+      left: 12%;
+      bottom: -60px;
+      opacity: 0.45;
+    }
+
+    .cloud-4 {
+      width: 500px;
+      height: 180px;
+      right: 18%;
+      top: -45px;
+      opacity: 0.42;
+    }
+
+    .cloud-5 {
+      width: 360px;
+      height: 140px;
+      left: 42%;
+      top: 16%;
+      opacity: 0.32;
+    }
+
+    .intro-screen.open .cloud-1,
+    .intro-screen.open .cloud-3 {
+      transform: translateX(-130vw);
       opacity: 0;
     }
 
-    .intro-screen.open .cloud-right {
-      transform: translateX(120vw);
+    .intro-screen.open .cloud-2,
+    .intro-screen.open .cloud-4,
+    .intro-screen.open .cloud-5 {
+      transform: translateX(130vw);
       opacity: 0;
     }
 
@@ -94,18 +134,27 @@
       z-index: 20;
       text-align: center;
       cursor: pointer;
-      padding: 40px 70px;
+      padding: 42px 78px;
       border-radius: 24px;
-      background: rgba(80, 80, 80, 0.25);
-      border: 1px solid rgba(255,255,255,0.18);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+      background:
+        linear-gradient(rgba(40,40,40,0.82), rgba(18,18,18,0.95)),
+        repeating-linear-gradient(
+          135deg,
+          #333,
+          #333 7px,
+          #252525 7px,
+          #252525 14px
+        );
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 55px rgba(0,0,0,0.95);
     }
 
     .intro-content h1 {
       margin: 0;
-      font-size: 44px;
-      letter-spacing: 5px;
+      font-family: "Orbitron", sans-serif;
+      font-size: 46px;
+      letter-spacing: 8px;
     }
 
     #welcome-word {
@@ -117,8 +166,8 @@
     }
 
     .click-hint {
-      margin-top: 16px;
-      font-size: 13px;
+      margin-top: 18px;
+      font-size: 12px;
       color: #bdbdbd;
     }
 
@@ -128,42 +177,170 @@
       justify-content: center;
       align-items: center;
       background:
-        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)),
-        repeating-linear-gradient(45deg, #2a2a2a, #2a2a2a 10px, #1d1d1d 10px, #1d1d1d 20px);
+        linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.97)),
+        repeating-linear-gradient(
+          45deg,
+          #2a2a2a,
+          #2a2a2a 10px,
+          #151515 10px,
+          #151515 22px
+        );
     }
 
     .chat-wrapper {
-      width: 420px;
-      min-height: 620px;
-      background: rgba(100, 100, 100, 0.18);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 20px;
+      width: 470px;
+      min-height: 690px;
+      background:
+        linear-gradient(rgba(35,35,35,0.92), rgba(12,12,12,0.98)),
+        repeating-linear-gradient(
+          135deg,
+          #303030,
+          #303030 8px,
+          #242424 8px,
+          #242424 16px
+        );
+      border: 1px solid rgba(190,190,190,0.28);
+      border-radius: 24px;
       padding: 24px;
-      box-shadow: 0 0 45px rgba(0,0,0,0.9);
+      box-shadow:
+        0 0 55px rgba(0,0,0,0.95),
+        inset 0 0 30px rgba(255,255,255,0.03);
       backdrop-filter: blur(8px);
     }
 
     .chat-title {
       text-align: center;
       margin-bottom: 18px;
-      font-size: 26px;
-      letter-spacing: 4px;
+      font-family: "Orbitron", sans-serif;
+      font-size: 28px;
+      letter-spacing: 7px;
       color: #f1f1f1;
     }
 
     .chat-container {
-      height: 500px;
-      border-radius: 16px;
+      height: 550px;
+      border-radius: 18px;
       overflow: hidden;
-      background: #1c1c1c;
+      background: #111;
+    }
+
+    .chatroom,
+    .chatroom * {
+      font-family: "Inter", Arial, sans-serif !important;
+    }
+
+    .chatroom {
+      width: 100% !important;
+      height: 100% !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+    .chatroom .chatroom-title {
+      display: none !important;
+    }
+
+    .chatroom .chats {
+      background:
+        linear-gradient(rgba(18,18,18,0.88), rgba(8,8,8,0.95)),
+        repeating-linear-gradient(
+          45deg,
+          #2e2e2e,
+          #2e2e2e 7px,
+          #202020 7px,
+          #202020 14px
+        ) !important;
+      border-radius: 18px 18px 0 0 !important;
+      padding: 18px !important;
+    }
+
+    .chatroom .message,
+    .chatroom .message.bot,
+    .chatroom .message.user,
+    .chatroom .message.received,
+    .chatroom .message.sent {
+      max-width: 78% !important;
+      padding: 10px 14px !important;
+      border-radius: 14px !important;
+      font-size: 14px !important;
+      line-height: 1.35 !important;
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
+    }
+
+    .chatroom .message.bot,
+    .chatroom .message.received {
+      background: linear-gradient(135deg, #3a3a3a, #1f1f1f) !important;
+      color: #f2f2f2 !important;
+      border: 1px solid #5c5c5c !important;
+      margin-right: auto !important;
+    }
+
+    .chatroom .message.user,
+    .chatroom .message.sent {
+      background: linear-gradient(135deg, #d7d7d7, #8f8f8f) !important;
+      color: #111 !important;
+      border: 1px solid #f1f1f1 !important;
+      margin-left: auto !important;
+      font-weight: 500 !important;
+    }
+
+    .chatroom small,
+    .chatroom .time,
+    .chatroom .message-time {
+      color: #9a9a9a !important;
+      font-size: 10px !important;
+    }
+
+    .chatroom .input,
+    .chatroom .input-area,
+    .chatroom form {
+      background: #111 !important;
+      border-top: 1px solid #444 !important;
+      border-radius: 0 0 18px 18px !important;
+    }
+
+    .chatroom input,
+    .chatroom textarea {
+      background: #202020 !important;
+      color: white !important;
+      border: 1px solid #666 !important;
+      border-radius: 999px !important;
+      padding-left: 14px !important;
+    }
+
+    .chatroom button {
+      background: linear-gradient(135deg, #606060, #2d2d2d) !important;
+      color: white !important;
+      border: 1px solid #777 !important;
+      border-radius: 999px !important;
+      font-family: "Orbitron", sans-serif !important;
+      font-size: 11px !important;
+      letter-spacing: 1px !important;
+    }
+
+    .chatroom ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chatroom ::-webkit-scrollbar-track {
+      background: #111;
+    }
+
+    .chatroom ::-webkit-scrollbar-thumb {
+      background: #666;
+      border-radius: 10px;
     }
   </style>
 </head>
 
 <body>
   <div class="intro-screen" id="introScreen">
-    <div class="cloud cloud-left"></div>
-    <div class="cloud cloud-right"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
 
     <div class="intro-content" id="enterAtmox">
       <span id="welcome-word">Welcome</span>
@@ -211,7 +388,7 @@
 
       setTimeout(() => {
         introScreen.classList.add("hidden");
-      }, 1800);
+      }, 1900);
     });
 
     var chatroom = new window.Chatroom({
@@ -226,5 +403,4 @@
     chatroom.openChat();
   </script>
 </body>
-
 </html>
