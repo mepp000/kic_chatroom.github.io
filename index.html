@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ATMOX Chatbot</title>
+<title>ATMOX</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; }
@@ -14,174 +14,130 @@
 body {
   margin: 0;
   min-height: 100vh;
+
+  /* 🧱 HELLER BETON */
   background:
-    linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.97)),
-    repeating-linear-gradient(45deg,#2a2a2a,#2a2a2a 10px,#151515 10px,#151515 22px);
-  font-family: "Inter", Arial, sans-serif;
-  color: white;
+    linear-gradient(rgba(255,255,255,0.92), rgba(245,245,245,0.96)),
+    repeating-linear-gradient(
+      135deg,
+      #e6e6e6,
+      #e6e6e6 6px,
+      #dcdcdc 6px,
+      #dcdcdc 14px
+    );
+
+  font-family: "Inter", sans-serif;
+  color: #111;
   overflow: hidden;
 }
 
-/* ---------- BACKGROUND CLOUDS ---------- */
-
+/* ☁️ BACKGROUND CLOUDS */
 .background-cloud {
   position: fixed;
   z-index: 0;
   pointer-events: none;
-  background: rgba(200,200,200,0.12);
+
+  background: rgba(180,180,180,0.25);
   border-radius: 999px;
-  filter: blur(36px);
+  filter: blur(70px);
+  mix-blend-mode: multiply;
 }
 
-.background-cloud::before,
-.background-cloud::after {
-  content: "";
-  position: absolute;
-  background: rgba(220,220,220,0.1);
-  border-radius: 50%;
-}
-
-.background-cloud::before {
-  width: 55%;
-  height: 120%;
-  top: -55%;
-  left: 12%;
-}
-
-.background-cloud::after {
-  width: 65%;
-  height: 145%;
-  top: -72%;
-  right: 8%;
-}
-
-.cloud-bg-1 {
-  width: 520px;
+.cloud-1 {
+  width: 500px;
   height: 180px;
-  left: -600px;
+  left: -200px;
   top: 20%;
-  animation: moveClouds 60s linear infinite;
+  animation: moveClouds 50s linear infinite;
 }
 
-.cloud-bg-2 {
-  width: 680px;
+.cloud-2 {
+  width: 650px;
   height: 220px;
-  left: -800px;
+  left: -300px;
   bottom: 20%;
-  animation: moveClouds 80s linear infinite;
-  opacity: 0.4;
+  animation: moveClouds 70s linear infinite;
+  opacity: 0.6;
 }
 
-.cloud-bg-3 {
+.cloud-3 {
   width: 420px;
   height: 150px;
-  left: -500px;
+  left: -150px;
   top: 55%;
-  animation: moveClouds 100s linear infinite;
-  opacity: 0.3;
+  animation: moveClouds 90s linear infinite;
+  opacity: 0.5;
 }
 
 @keyframes moveClouds {
   from { transform: translateX(0); }
-  to { transform: translateX(calc(100vw + 900px)); }
+  to { transform: translateX(calc(100vw + 400px)); }
 }
 
-/* ---------- INTRO ---------- */
-
-.intro-screen {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
-    repeating-linear-gradient(45deg,#2b2b2b,#2b2b2b 10px,#151515 10px,#151515 22px);
-  z-index: 10;
-  transition: opacity 1s ease;
-}
-
-.intro-screen.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.intro-content {
-  text-align: center;
-  cursor: pointer;
-}
-
-#welcome-word {
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: #ccc;
-}
-
-.intro-content h1 {
-  font-family: "Orbitron";
-  letter-spacing: 8px;
-}
-
-/* ---------- CHAT ---------- */
-
-.chat-page {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* 📦 CENTER CARD */
+.wrapper {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.chat-wrapper {
+.card {
   width: 470px;
   height: 690px;
+
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px);
+
   border-radius: 24px;
+  border: 1px solid rgba(0,0,0,0.08);
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+
   padding: 24px;
-  background: linear-gradient(#222,#111);
+
   display: flex;
   flex-direction: column;
 }
 
-.chat-title {
+/* 🧠 HEADER */
+.title {
   text-align: center;
   font-family: "Orbitron";
-  letter-spacing: 7px;
+  font-size: 26px;
+  letter-spacing: 6px;
 }
 
-.chat-subtitle {
+.subtitle {
   font-size: 11px;
-  color: #999;
+  letter-spacing: 2px;
+  color: #666;
   margin-top: 8px;
 }
 
-.chat-credit {
+.credit {
   font-size: 10px;
-  color: #666;
+  color: #999;
 }
 
-.glow-line {
+/* ✨ DIVIDER */
+.line {
   height: 1px;
   margin: 14px 0;
-  background: linear-gradient(90deg,transparent,#aaa,transparent);
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent);
 }
 
+/* 💬 CHAT */
 .chat-container {
   flex: 1;
   border-radius: 18px;
   overflow: hidden;
 }
 
-/* ---------- CHATROOM FIX ---------- */
-
-.chatroom {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-}
-
-/* HEADER KILL */
+/* REMOVE HEADER */
 .chatroom .header,
 .chatroom header,
 .chatroom .chatroom-title,
@@ -189,45 +145,98 @@ body {
   display: none !important;
 }
 
+.chatroom {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+/* CHAT AREA */
 .chatroom .chats {
   flex: 1 !important;
   overflow-y: auto !important;
   padding: 18px !important;
 }
 
-.chatroom form {
-  flex-shrink: 0 !important;
+/* MESSAGES */
+.chatroom .message.received {
+  background: #f1f1f1 !important;
+  color: #111 !important;
+  border-radius: 14px !important;
+}
+
+.chatroom .message.sent {
+  background: #dcdcdc !important;
+  color: #111 !important;
+  border-radius: 14px !important;
+}
+
+/* INPUT */
+.chatroom input {
+  background: #f5f5f5 !important;
+  border-radius: 999px !important;
+  border: 1px solid #ddd !important;
+}
+
+.chatroom button {
+  background: #e0e0e0 !important;
+  border-radius: 999px !important;
+}
+
+/* 🌍 INTRO SCREEN */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    linear-gradient(rgba(255,255,255,0.95), rgba(240,240,240,0.98));
+  transition: opacity 1s ease;
+}
+
+.intro.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#welcome {
+  font-size: 22px;
+  color: #666;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND CLOUDS -->
-<div class="background-cloud cloud-bg-1"></div>
-<div class="background-cloud cloud-bg-2"></div>
-<div class="background-cloud cloud-bg-3"></div>
+<!-- ☁️ CLOUDS -->
+<div class="background-cloud cloud-1"></div>
+<div class="background-cloud cloud-2"></div>
+<div class="background-cloud cloud-3"></div>
 
-<!-- INTRO -->
-<div class="intro-screen" id="intro">
-  <div class="intro-content" onclick="enterApp()">
-    <div id="welcome-word">Welcome</div>
-    <h1>ATMOX</h1>
+<!-- 🌍 INTRO -->
+<div class="intro" id="intro" onclick="enterApp()">
+  <div>
+    <div id="welcome">Welcome</div>
+    <h1 style="font-family:Orbitron;letter-spacing:8px;">ATMOX</h1>
     <div>Click to enter</div>
   </div>
 </div>
 
-<!-- CHAT -->
-<div class="chat-page">
-  <div class="chat-wrapper">
+<!-- 💎 APP -->
+<div class="wrapper">
+  <div class="card">
 
-    <div class="chat-title">
-      ATMOX
-      <div class="chat-subtitle">Where Weather Meets Intelligence</div>
-      <div class="chat-credit">Powered by Marius</div>
-    </div>
+    <div class="title">ATMOX</div>
+    <div class="subtitle">Where Weather Meets Intelligence</div>
+    <div class="credit">Powered by Marius</div>
 
-    <div class="glow-line"></div>
+    <div class="line"></div>
 
     <div class="chat-container"></div>
 
@@ -237,22 +246,21 @@ body {
 <script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
 
 <script>
-
-/* 🌍 Sprache wechseln */
+/* 🌍 MULTI LANGUAGE INTRO */
 const words = ["Welcome","Willkommen","Bienvenue","Bienvenido","Benvenuto","Welkom","Witamy","Karibu","ようこそ","환영합니다"];
 let i = 0;
 
 setInterval(() => {
   i = (i + 1) % words.length;
-  document.getElementById("welcome-word").textContent = words[i];
-}, 3000);
+  document.getElementById("welcome").textContent = words[i];
+}, 2500);
 
-/* Intro schließen */
+/* INTRO CLOSE */
 function enterApp(){
   document.getElementById("intro").classList.add("hidden");
 }
 
-/* Chat starten */
+/* CHAT */
 var chatroom = new window.Chatroom({
   host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
   title: "",
@@ -263,7 +271,6 @@ var chatroom = new window.Chatroom({
 });
 
 chatroom.openChat();
-
 </script>
 
 </body>
