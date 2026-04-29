@@ -17,6 +17,7 @@
       background: #050505;
       font-family: "Inter", Arial, sans-serif;
       color: white;
+      overflow: hidden;
     }
 
     .chat-page {
@@ -45,14 +46,15 @@
 
     .chat-title {
       text-align: center;
-      margin-bottom: 18px;
       font-family: "Orbitron", sans-serif;
       font-size: 28px;
       letter-spacing: 7px;
+      line-height: 1.1;
     }
 
     .chat-subtitle {
       margin-top: 8px;
+      font-family: "Inter", Arial, sans-serif;
       font-size: 11px;
       letter-spacing: 2px;
       color: #9f9f9f;
@@ -61,10 +63,18 @@
 
     .chat-credit {
       margin-top: 4px;
+      font-family: "Inter", Arial, sans-serif;
       font-size: 10px;
       letter-spacing: 1.6px;
       color: #6f6f6f;
       text-transform: uppercase;
+    }
+
+    .glow-line {
+      height: 1px;
+      margin: 16px 0 14px 0;
+      background: linear-gradient(90deg, transparent, #bdbdbd, transparent);
+      box-shadow: 0 0 10px rgba(255,255,255,0.45);
     }
 
     .chat-container {
@@ -73,8 +83,6 @@
       overflow: hidden;
       background: #111;
     }
-
-    /* ---------- CHATROOM FIX ---------- */
 
     .chatroom,
     .chatroom * {
@@ -85,76 +93,121 @@
       width: 100% !important;
       height: 100% !important;
       border: none !important;
+      box-shadow: none !important;
       background: transparent !important;
     }
 
-    /* Header komplett entfernen */
     .chatroom .header,
     .chatroom header,
     .chatroom .title,
     .chatroom .chatroom-title {
       display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      overflow: hidden !important;
     }
 
-    /* Chatbereich sauber positionieren */
     .chatroom .chats {
-      height: calc(100% - 60px) !important;
-      margin-top: 0 !important;
+      height: calc(100% - 58px) !important;
       overflow-y: auto !important;
-
       background:
         linear-gradient(rgba(18,18,18,0.88), rgba(8,8,8,0.95)),
-        repeating-linear-gradient(
-          45deg,
-          #2e2e2e,
-          #2e2e2e 7px,
-          #202020 7px,
-          #202020 14px
-        ) !important;
-
+        repeating-linear-gradient(45deg, #2e2e2e, #2e2e2e 7px, #202020 7px, #202020 14px) !important;
       border-radius: 18px 18px 0 0 !important;
       padding: 18px !important;
+    }
+
+    .chatroom .chats > div:first-child {
+      display: none !important;
     }
 
     .chatroom .message:first-child {
       margin-top: 10px !important;
     }
 
-    .chatroom .message {
+    .chatroom .message,
+    .chatroom .message.bot,
+    .chatroom .message.user,
+    .chatroom .message.received,
+    .chatroom .message.sent {
       max-width: 78% !important;
       padding: 10px 14px !important;
       border-radius: 14px !important;
       font-size: 14px !important;
+      line-height: 1.35 !important;
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
     }
 
+    .chatroom .message.bot,
     .chatroom .message.received {
-      background: #2a2a2a !important;
-      color: white !important;
+      background: linear-gradient(135deg, #3a3a3a, #1f1f1f) !important;
+      color: #f2f2f2 !important;
+      border: 1px solid #5c5c5c !important;
+      margin-right: auto !important;
     }
 
+    .chatroom .message.user,
     .chatroom .message.sent {
-      background: #d7d7d7 !important;
-      color: black !important;
+      background: linear-gradient(135deg, #d7d7d7, #8f8f8f) !important;
+      color: #111 !important;
+      border: 1px solid #f1f1f1 !important;
+      margin-left: auto !important;
+      font-weight: 500 !important;
     }
 
-    /* Input */
-    .chatroom input {
+    .chatroom small,
+    .chatroom .time,
+    .chatroom .message-time {
+      color: #9a9a9a !important;
+      font-size: 10px !important;
+    }
+
+    .chatroom .input,
+    .chatroom .input-area,
+    .chatroom form {
+      background: #111 !important;
+      border-top: 1px solid #444 !important;
+      border-radius: 0 0 18px 18px !important;
+    }
+
+    .chatroom input,
+    .chatroom textarea {
       background: #202020 !important;
       color: white !important;
+      border: 1px solid #666 !important;
       border-radius: 999px !important;
+      padding-left: 14px !important;
     }
 
     .chatroom button {
-      background: #444 !important;
+      background: linear-gradient(135deg, #606060, #2d2d2d) !important;
       color: white !important;
+      border: 1px solid #777 !important;
       border-radius: 999px !important;
+      font-family: "Orbitron", sans-serif !important;
+      font-size: 11px !important;
+      letter-spacing: 1px !important;
     }
 
+    .chatroom ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chatroom ::-webkit-scrollbar-track {
+      background: #111;
+    }
+
+    .chatroom ::-webkit-scrollbar-thumb {
+      background: #666;
+      border-radius: 10px;
+    }
   </style>
 </head>
 
 <body>
-
   <div class="chat-page">
     <div class="chat-wrapper">
 
@@ -163,6 +216,8 @@
         <div class="chat-subtitle">Where Weather Meets Intelligence</div>
         <div class="chat-credit">Powered by Marius Zöllner</div>
       </div>
+
+      <div class="glow-line"></div>
 
       <div class="chat-container"></div>
 
@@ -174,13 +229,26 @@
   <script>
     var chatroom = new window.Chatroom({
       host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
-      title: "",
+      title: " ",
       container: document.querySelector(".chat-container"),
-      welcomeMessage: "Hello and welcome to ATMOX. How can I help you?"
+      welcomeMessage: "Hello and welcome to ATMOX. How can I help you?",
+      speechRecognition: "en-US",
+      voiceLang: "en-US"
     });
 
     chatroom.openChat();
-  </script>
 
+    setTimeout(() => {
+      document.querySelectorAll(".chatroom *").forEach((el) => {
+        if (el.textContent.trim() === "Chat") {
+          el.style.display = "none";
+          el.style.height = "0";
+          el.style.padding = "0";
+          el.style.margin = "0";
+          el.style.overflow = "hidden";
+        }
+      });
+    }, 300);
+  </script>
 </body>
 </html>
