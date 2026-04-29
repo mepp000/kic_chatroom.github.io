@@ -1,202 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ATMOX Chatbot</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATMOX Chatbot</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.css" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #050505;
-      font-family: "Inter", Arial, sans-serif;
-      color: white;
-    }
+body {
+  margin: 0;
+  background: #050505;
+  font-family: "Inter", Arial, sans-serif;
+  color: white;
+  overflow: hidden;
+}
 
-    .chat-page {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background:
-        linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.97)),
-        repeating-linear-gradient(45deg, #2a2a2a, #2a2a2a 10px, #151515 10px, #151515 22px);
-    }
+/* ---------- INTRO SCREEN ---------- */
 
-    .chat-wrapper {
-      width: 470px;
-      height: 690px;
-      background:
-        linear-gradient(rgba(35,35,35,0.92), rgba(12,12,12,0.98)),
-        repeating-linear-gradient(135deg, #303030, #303030 8px, #242424 8px, #242424 16px);
-      border: 1px solid rgba(190,190,190,0.28);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow:
-        0 0 55px rgba(0,0,0,0.95),
-        inset 0 0 30px rgba(255,255,255,0.03);
-      display: flex;
-      flex-direction: column;
-    }
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
+    repeating-linear-gradient(45deg,#2b2b2b,#2b2b2b 10px,#151515 10px,#151515 22px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 1s ease;
+}
 
-    .chat-title {
-      text-align: center;
-      font-family: "Orbitron", sans-serif;
-      font-size: 28px;
-      letter-spacing: 7px;
-    }
+.intro-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 
-    .chat-subtitle {
-      margin-top: 8px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: #9f9f9f;
-      text-transform: uppercase;
-    }
+.cloud {
+  position: absolute;
+  background: rgba(190,190,190,0.3);
+  border-radius: 999px;
+  filter: blur(30px);
+}
 
-    .chat-credit {
-      margin-top: 4px;
-      font-size: 10px;
-      letter-spacing: 1.6px;
-      color: #6f6f6f;
-      text-transform: uppercase;
-    }
+.cloud-1 { width: 600px; height: 200px; left: -100px; top: 20%; }
+.cloud-2 { width: 650px; height: 220px; right: -120px; bottom: 20%; }
 
-    .glow-line {
-      height: 1px;
-      margin: 14px 0;
-      background: linear-gradient(90deg, transparent, #bdbdbd, transparent);
-      box-shadow: 0 0 10px rgba(255,255,255,0.45);
-    }
+.intro-content {
+  text-align: center;
+  cursor: pointer;
+}
 
-    .chat-container {
-      flex: 1;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #111;
-    }
+.intro-content h1 {
+  font-family: "Orbitron";
+  letter-spacing: 8px;
+}
 
-    /* ---------- CHATROOM FIX ---------- */
+/* ---------- CHAT UI ---------- */
 
-    .chatroom,
-    .chatroom * {
-      font-family: "Inter", Arial, sans-serif !important;
-    }
+.chat-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .chatroom {
-      display: flex !important;
-      flex-direction: column !important;
-      height: 100% !important;
-      border: none !important;
-      background: transparent !important;
-    }
+.chat-wrapper {
+  width: 470px;
+  height: 690px;
+  border-radius: 24px;
+  padding: 24px;
+  background: linear-gradient(#222,#111);
+  display: flex;
+  flex-direction: column;
+}
 
-    /* 🔥 HEADER + "Chat" KOMPLETT WEG */
-    .chatroom .header,
-    .chatroom header,
-    .chatroom .chatroom-title,
-    .chatroom .title {
-      display: none !important;
-    }
+.chat-title {
+  text-align: center;
+  font-family: "Orbitron";
+  letter-spacing: 7px;
+}
 
-    /* Chatbereich */
-    .chatroom .chats {
-      flex: 1 !important;
-      overflow-y: auto !important;
-      padding: 18px !important;
+.chat-subtitle {
+  font-size: 11px;
+  color: #999;
+  margin-top: 8px;
+}
 
-      background:
-        linear-gradient(rgba(18,18,18,0.88), rgba(8,8,8,0.95)),
-        repeating-linear-gradient(
-          45deg,
-          #2e2e2e,
-          #2e2e2e 7px,
-          #202020 7px,
-          #202020 14px
-        ) !important;
+.chat-credit {
+  font-size: 10px;
+  color: #666;
+}
 
-      border-radius: 18px 18px 0 0 !important;
-    }
+.glow-line {
+  height: 1px;
+  margin: 14px 0;
+  background: linear-gradient(90deg,transparent,#aaa,transparent);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
 
-    .chatroom .message {
-      max-width: 78% !important;
-      padding: 10px 14px !important;
-      border-radius: 14px !important;
-      font-size: 14px !important;
-    }
+.chat-container {
+  flex: 1;
+  border-radius: 18px;
+  overflow: hidden;
+}
 
-    .chatroom .message.received {
-      background: #2a2a2a !important;
-      color: white !important;
-    }
+/* ---------- CHATROOM FIX ---------- */
 
-    .chatroom .message.sent {
-      background: #d7d7d7 !important;
-      color: black !important;
-    }
+.chatroom {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
 
-    /* Input */
-    .chatroom form,
-    .chatroom .input,
-    .chatroom .input-area {
-      flex-shrink: 0 !important;
-      background: #111 !important;
-      border-top: 1px solid #444 !important;
-    }
+/* HEADER KOMPLETT WEG */
+.chatroom .header,
+.chatroom header,
+.chatroom .chatroom-title,
+.chatroom .title {
+  display: none !important;
+}
 
-    .chatroom input {
-      background: #202020 !important;
-      color: white !important;
-      border-radius: 999px !important;
-    }
+/* CHAT */
+.chatroom .chats {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 18px !important;
+}
 
-    .chatroom button {
-      background: #444 !important;
-      color: white !important;
-      border-radius: 999px !important;
-    }
-
-  </style>
+/* INPUT */
+.chatroom form {
+  flex-shrink: 0 !important;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="chat-page">
-    <div class="chat-wrapper">
+<!-- INTRO -->
+<div class="intro-screen" id="intro">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
 
-      <div class="chat-title">
-        ATMOX
-        <div class="chat-subtitle">Where Weather Meets Intelligence</div>
-        <div class="chat-credit">Powered by Marius Zöllner</div>
-      </div>
-
-      <div class="glow-line"></div>
-
-      <div class="chat-container"></div>
-
-    </div>
+  <div class="intro-content" onclick="enterApp()">
+    <h1>ATMOX</h1>
+    <p>Click to enter</p>
   </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
+<!-- CHAT -->
+<div class="chat-page">
+  <div class="chat-wrapper">
 
-  <script>
-    var chatroom = new window.Chatroom({
-      host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
-      title: "",
-      container: document.querySelector(".chat-container"),
-      welcomeMessage: "Hello and welcome to ATMOX. How can I help you?",
-      speechRecognition: "en-US",
-      voiceLang: "en-US"
-    });
+    <div class="chat-title">
+      ATMOX
+      <div class="chat-subtitle">Where Weather Meets Intelligence</div>
+      <div class="chat-credit">Powered by Marius</div>
+    </div>
 
-    chatroom.openChat();
-  </script>
+    <div class="glow-line"></div>
+
+    <div class="chat-container"></div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
+
+<script>
+function enterApp(){
+  document.getElementById("intro").classList.add("hidden");
+}
+
+var chatroom = new window.Chatroom({
+  host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
+  title: "",
+  container: document.querySelector(".chat-container"),
+  welcomeMessage: "Hello and welcome to ATMOX. How can I help you?",
+  speechRecognition: "en-US",
+  voiceLang: "en-US"
+});
+
+chatroom.openChat();
+</script>
 
 </body>
 </html>
