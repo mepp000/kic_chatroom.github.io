@@ -30,14 +30,15 @@
         repeating-linear-gradient(135deg, #4a4b4d, #4a4b4d 7px, #343537 7px, #343537 17px);
     }
 
+    /* GLOBAL CLOUDS - visible on intro and chat */
     .cloud {
       position: fixed;
       z-index: 1;
       pointer-events: none;
       border-radius: 999px;
-      background: rgba(255,255,255,0.38);
-      filter: blur(46px);
-      opacity: 0.85;
+      background: rgba(255,255,255,0.42);
+      filter: blur(42px);
+      opacity: 0.72;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }
@@ -65,39 +66,40 @@
     }
 
     .cloud-1 {
-      width: 620px;
-      height: 210px;
-      left: -700px;
-      top: 16%;
+      width: 520px;
+      height: 170px;
+      left: -120px;
+      top: 15%;
       animation-name: cloudMove;
-      animation-duration: 42s;
+      animation-duration: 38s;
     }
 
     .cloud-2 {
-      width: 780px;
-      height: 250px;
-      left: -900px;
-      bottom: 18%;
-      opacity: 0.7;
+      width: 620px;
+      height: 200px;
+      left: -220px;
+      bottom: 16%;
+      opacity: 0.6;
       animation-name: cloudMove;
-      animation-duration: 62s;
+      animation-duration: 58s;
     }
 
     .cloud-3 {
-      width: 480px;
-      height: 165px;
-      left: -540px;
-      top: 58%;
-      opacity: 0.6;
+      width: 380px;
+      height: 130px;
+      left: 35%;
+      top: 55%;
+      opacity: 0.45;
       animation-name: cloudMove;
-      animation-duration: 82s;
+      animation-duration: 78s;
     }
 
     @keyframes cloudMove {
-      from { transform: translateX(0); }
-      to { transform: translateX(calc(100vw + 1100px)); }
+      from { transform: translateX(-15vw); }
+      to { transform: translateX(120vw); }
     }
 
+    /* INTRO SCREEN */
     .intro-screen {
       position: fixed;
       inset: 0;
@@ -107,10 +109,10 @@
       align-items: center;
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 32%, rgba(255,255,255,0.22), transparent 36%),
-        linear-gradient(rgba(42,43,45,0.74), rgba(20,21,23,0.86)),
-        repeating-linear-gradient(135deg, rgba(76,77,79,0.72), rgba(76,77,79,0.72) 7px, rgba(53,54,56,0.72) 7px, rgba(53,54,56,0.72) 17px);
-      transition: opacity 1.1s ease;
+        radial-gradient(circle at 50% 32%, rgba(255,255,255,0.18), transparent 40%),
+        linear-gradient(rgba(42,43,45,0.78), rgba(20,21,23,0.88)),
+        repeating-linear-gradient(135deg, rgba(76,77,79,0.82), rgba(76,77,79,0.82) 7px, rgba(53,54,56,0.82) 7px, rgba(53,54,56,0.82) 17px);
+      transition: opacity 0.9s ease;
     }
 
     .intro-screen.hidden {
@@ -185,6 +187,7 @@
 
     .enter-btn:active { transform: scale(0.97); }
 
+    /* APP - hidden until enter */
     .app {
       position: relative;
       z-index: 5;
@@ -192,6 +195,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    .app.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
     }
 
     .atmox-card {
@@ -435,7 +448,14 @@
     }, 2500);
 
     document.getElementById("enterAtmox").addEventListener("click", () => {
-      document.getElementById("introScreen").classList.add("hidden");
+      const intro = document.getElementById("introScreen");
+      const app = document.querySelector(".app");
+
+      intro.classList.add("hidden");
+
+      setTimeout(() => {
+        app.classList.add("visible");
+      }, 350);
     });
 
     var chatroom = new window.Chatroom({
