@@ -27,13 +27,7 @@
       inset: 0;
       background:
         linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.92)),
-        repeating-linear-gradient(
-          45deg,
-          #2b2b2b,
-          #2b2b2b 10px,
-          #151515 10px,
-          #151515 22px
-        );
+        repeating-linear-gradient(45deg, #2b2b2b, #2b2b2b 10px, #151515 10px, #151515 22px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -138,13 +132,7 @@
       border-radius: 24px;
       background:
         linear-gradient(rgba(40,40,40,0.82), rgba(18,18,18,0.95)),
-        repeating-linear-gradient(
-          135deg,
-          #333,
-          #333 7px,
-          #252525 7px,
-          #252525 14px
-        );
+        repeating-linear-gradient(135deg, #333, #333 7px, #252525 7px, #252525 14px);
       border: 1px solid rgba(255,255,255,0.22);
       backdrop-filter: blur(12px);
       box-shadow: 0 0 55px rgba(0,0,0,0.95);
@@ -178,13 +166,7 @@
       align-items: center;
       background:
         linear-gradient(rgba(0,0,0,0.84), rgba(0,0,0,0.97)),
-        repeating-linear-gradient(
-          45deg,
-          #2a2a2a,
-          #2a2a2a 10px,
-          #151515 10px,
-          #151515 22px
-        );
+        repeating-linear-gradient(45deg, #2a2a2a, #2a2a2a 10px, #151515 10px, #151515 22px);
     }
 
     .chat-wrapper {
@@ -192,13 +174,7 @@
       min-height: 690px;
       background:
         linear-gradient(rgba(35,35,35,0.92), rgba(12,12,12,0.98)),
-        repeating-linear-gradient(
-          135deg,
-          #303030,
-          #303030 8px,
-          #242424 8px,
-          #242424 16px
-        );
+        repeating-linear-gradient(135deg, #303030, #303030 8px, #242424 8px, #242424 16px);
       border: 1px solid rgba(190,190,190,0.28);
       border-radius: 24px;
       padding: 24px;
@@ -215,6 +191,26 @@
       font-size: 28px;
       letter-spacing: 7px;
       color: #f1f1f1;
+      line-height: 1.1;
+    }
+
+    .chat-subtitle {
+      margin-top: 8px;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      color: #9f9f9f;
+      text-transform: uppercase;
+    }
+
+    .chat-credit {
+      margin-top: 4px;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      color: #6f6f6f;
+      text-transform: uppercase;
     }
 
     .chat-container {
@@ -237,20 +233,24 @@
       background: transparent !important;
     }
 
-    .chatroom .chatroom-title {
+    .chatroom .chatroom-title,
+    .chatroom .header,
+    .chatroom header,
+    .chatroom .title {
       display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      overflow: hidden !important;
     }
 
     .chatroom .chats {
+      height: calc(100% - 52px) !important;
       background:
         linear-gradient(rgba(18,18,18,0.88), rgba(8,8,8,0.95)),
-        repeating-linear-gradient(
-          45deg,
-          #2e2e2e,
-          #2e2e2e 7px,
-          #202020 7px,
-          #202020 14px
-        ) !important;
+        repeating-linear-gradient(45deg, #2e2e2e, #2e2e2e 7px, #202020 7px, #202020 14px) !important;
       border-radius: 18px 18px 0 0 !important;
       padding: 18px !important;
     }
@@ -351,7 +351,12 @@
 
   <div class="chat-page">
     <div class="chat-wrapper">
-      <div class="chat-title">ATMOX</div>
+      <div class="chat-title">
+        ATMOX
+        <div class="chat-subtitle">Where Weather Meets Intelligence</div>
+        <div class="chat-credit">Powered by Marius Zöllner</div>
+      </div>
+
       <div class="chat-container"></div>
     </div>
   </div>
@@ -393,7 +398,7 @@
 
     var chatroom = new window.Chatroom({
       host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
-      title: "Where Weather Meets Intelligence- powered by Marius Zöllner",
+      title: "",
       container: document.querySelector(".chat-container"),
       welcomeMessage: "Hello and welcome to ATMOX. How can I help you?",
       speechRecognition: "en-US",
