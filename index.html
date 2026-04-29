@@ -19,17 +19,17 @@ body {
   overflow: hidden;
 }
 
-/* ---------- INTRO SCREEN ---------- */
+/* ---------- INTRO ---------- */
 
 .intro-screen {
   position: fixed;
   inset: 0;
-  background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
-    repeating-linear-gradient(45deg,#2b2b2b,#2b2b2b 10px,#151515 10px,#151515 22px);
   display: flex;
   justify-content: center;
   align-items: center;
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
+    repeating-linear-gradient(45deg,#2b2b2b,#2b2b2b 10px,#151515 10px,#151515 22px);
   z-index: 10;
   transition: opacity 1s ease;
 }
@@ -54,12 +54,19 @@ body {
   cursor: pointer;
 }
 
+#welcome-word {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
 .intro-content h1 {
   font-family: "Orbitron";
   letter-spacing: 8px;
 }
 
-/* ---------- CHAT UI ---------- */
+/* ---------- CHAT ---------- */
 
 .chat-page {
   min-height: 100vh;
@@ -116,7 +123,7 @@ body {
   height: 100% !important;
 }
 
-/* HEADER KOMPLETT WEG */
+/* KILL HEADER */
 .chatroom .header,
 .chatroom header,
 .chatroom .chatroom-title,
@@ -124,14 +131,12 @@ body {
   display: none !important;
 }
 
-/* CHAT */
 .chatroom .chats {
   flex: 1 !important;
   overflow-y: auto !important;
   padding: 18px !important;
 }
 
-/* INPUT */
 .chatroom form {
   flex-shrink: 0 !important;
 }
@@ -146,8 +151,9 @@ body {
   <div class="cloud cloud-2"></div>
 
   <div class="intro-content" onclick="enterApp()">
+    <span id="welcome-word">Welcome</span>
     <h1>ATMOX</h1>
-    <p>Click to enter</p>
+    <div>Click to enter</div>
   </div>
 </div>
 
@@ -171,10 +177,22 @@ body {
 <script src="https://cdn.jsdelivr.net/gh/weberi/chatroom@master/dist/Chatroom.js"></script>
 
 <script>
+
+/* 🌍 Sprachwechsel */
+const words = ["Welcome","Willkommen","Bienvenue","Bienvenido","Benvenuto","Welkom","Witamy","Karibu","ようこそ","환영합니다"];
+let i = 0;
+
+setInterval(() => {
+  i = (i + 1) % words.length;
+  document.getElementById("welcome-word").textContent = words[i];
+}, 3000);
+
+/* Intro schließen */
 function enterApp(){
   document.getElementById("intro").classList.add("hidden");
 }
 
+/* Chat */
 var chatroom = new window.Chatroom({
   host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
   title: "",
@@ -185,6 +203,7 @@ var chatroom = new window.Chatroom({
 });
 
 chatroom.openChat();
+
 </script>
 
 </body>
