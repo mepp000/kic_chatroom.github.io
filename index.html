@@ -97,19 +97,6 @@
       background: transparent !important;
     }
 
-    .chatroom .header,
-    .chatroom header,
-    .chatroom .title,
-    .chatroom .chatroom-title {
-      display: none !important;
-      height: 0 !important;
-      min-height: 0 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border: none !important;
-      overflow: hidden !important;
-    }
-
     .chatroom .chats {
       height: calc(100% - 58px) !important;
       overflow-y: auto !important;
@@ -118,14 +105,6 @@
         repeating-linear-gradient(45deg, #2e2e2e, #2e2e2e 7px, #202020 7px, #202020 14px) !important;
       border-radius: 18px 18px 0 0 !important;
       padding: 18px !important;
-    }
-
-    .chatroom .chats > div:first-child {
-      display: none !important;
-    }
-
-    .chatroom .message:first-child {
-      margin-top: 10px !important;
     }
 
     .chatroom .message,
@@ -191,19 +170,6 @@
       font-size: 11px !important;
       letter-spacing: 1px !important;
     }
-
-    .chatroom ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .chatroom ::-webkit-scrollbar-track {
-      background: #111;
-    }
-
-    .chatroom ::-webkit-scrollbar-thumb {
-      background: #666;
-      border-radius: 10px;
-    }
   </style>
 </head>
 
@@ -229,7 +195,7 @@
   <script>
     var chatroom = new window.Chatroom({
       host: "https://congenial-space-goldfish-xrw9rrx4g4qq2x5q-5005.app.github.dev",
-      title: " ",
+      title: "\u00A0",
       container: document.querySelector(".chat-container"),
       welcomeMessage: "Hello and welcome to ATMOX. How can I help you?",
       speechRecognition: "en-US",
@@ -238,17 +204,33 @@
 
     chatroom.openChat();
 
-    setTimeout(() => {
-      document.querySelectorAll(".chatroom *").forEach((el) => {
-        if (el.textContent.trim() === "Chat") {
-          el.style.display = "none";
-          el.style.height = "0";
-          el.style.padding = "0";
-          el.style.margin = "0";
+    function removeChatTitle() {
+      document.querySelectorAll(".chat-container *").forEach(function(el) {
+        const text = el.textContent.trim();
+
+        if (text === "Chat") {
+          el.textContent = "";
+          el.style.height = "0px";
+          el.style.minHeight = "0px";
+          el.style.padding = "0px";
+          el.style.margin = "0px";
+          el.style.border = "none";
           el.style.overflow = "hidden";
+          el.style.display = "none";
         }
       });
-    }, 300);
+    }
+
+    removeChatTitle();
+    setTimeout(removeChatTitle, 100);
+    setTimeout(removeChatTitle, 500);
+    setTimeout(removeChatTitle, 1000);
+
+    const observer = new MutationObserver(removeChatTitle);
+    observer.observe(document.querySelector(".chat-container"), {
+      childList: true,
+      subtree: true
+    });
   </script>
 </body>
 </html>
