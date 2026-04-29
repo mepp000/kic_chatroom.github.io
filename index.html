@@ -88,17 +88,18 @@
       background: transparent !important;
     }
 
-    /* Header entfernen */
+    /* Header komplett entfernen */
     .chatroom .header,
+    .chatroom header,
     .chatroom .title,
     .chatroom .chatroom-title {
       display: none !important;
     }
 
-    /* Chatbereich */
+    /* Chatbereich sauber positionieren */
     .chatroom .chats {
       height: calc(100% - 60px) !important;
-      margin-top: 10px !important;
+      margin-top: 0 !important;
       overflow-y: auto !important;
 
       background:
@@ -115,7 +116,6 @@
       padding: 18px !important;
     }
 
-    /* Abstand für erste Nachricht */
     .chatroom .message:first-child {
       margin-top: 10px !important;
     }
