@@ -30,7 +30,6 @@
         repeating-linear-gradient(135deg, #4a4b4d, #4a4b4d 7px, #343537 7px, #343537 17px);
     }
 
-    /* GLOBAL CLOUDS - visible on intro and chat */
     .cloud {
       position: fixed;
       z-index: 1;
@@ -99,7 +98,6 @@
       to { transform: translateX(120vw); }
     }
 
-    /* INTRO SCREEN */
     .intro-screen {
       position: fixed;
       inset: 0;
@@ -187,7 +185,6 @@
 
     .enter-btn:active { transform: scale(0.97); }
 
-    /* APP - hidden until enter */
     .app {
       position: relative;
       z-index: 5;
@@ -335,10 +332,20 @@
     .chatroom .message.sent {
       max-width: 78% !important;
       padding: 12px 15px !important;
-      border-radius: 18px !important;
       font-size: 14px !important;
       line-height: 1.35 !important;
       box-shadow: 0 10px 26px rgba(0,0,0,0.12) !important;
+    }
+
+    /* 🔥 HIER IST DIE EINZIGE ÄNDERUNG */
+    .chatroom .message.bot,
+    .chatroom .message.received {
+      border-radius: 28px 28px 28px 10px !important;
+    }
+
+    .chatroom .message.user,
+    .chatroom .message.sent {
+      border-radius: 28px 28px 10px 28px !important;
     }
 
     .chatroom .message.bot,
